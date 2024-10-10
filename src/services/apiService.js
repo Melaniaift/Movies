@@ -1,4 +1,3 @@
-
 const API_BASE_URL = 'https://api.themoviedb.org/3';
 
 const options = {
@@ -9,12 +8,11 @@ const options = {
   }
 };
 
-// Fetch playing movies
-export async function fetchNowPlayingMovies(page = 1) {
+async function fetchMoviesData(endpoint, page = 1) {
   try {
-    const response = await fetch(`${API_BASE_URL}/movie/now_playing?language=en-US&page=${page}`, options);
+    const response = await fetch(`${API_BASE_URL}${endpoint}&page=${page}`, options);
     if (!response.ok) {
-      throw new Error('Failed to fetch now playing movies');
+      throw new Error(`Failed to fetch data from ${endpoint}`);
     }
     const data = await response.json();
     return data.results;
@@ -23,53 +21,34 @@ export async function fetchNowPlayingMovies(page = 1) {
   }
 }
 
-export async function fetchPopularMovies(page = 1) {
-  try {
-    const response = await fetch(`${API_BASE_URL}/movie/popular?language=en-US&page=${page}`, options);
-    if (!response.ok) {
-      throw new Error('Failed to fetch now playing movies');
-    }
-    const data = await response.json();
-    return data.results;
-  } catch (error) {
-    throw error;
-  }
+export function fetchNowPlayingMovies(page = 1) {
+  return fetchMoviesData('/movie/now_playing?language=en-US', page);
 }
 
-export async function fetchTopRatedMovies(page = 1) {
-  try {
-    const response = await fetch(`${API_BASE_URL}/movie/top_rated?language=en-US&page=${page}`, options);
-    if (!response.ok) {
-      throw new Error('Failed to fetch now playing movies');
-    }
-    const data = await response.json();
-    return data.results;
-  } catch (error) {
-    throw error;
-  }
+export function fetchPopularMovies(page = 1) {
+  return fetchMoviesData('/movie/popular?language=en-US', page);
 }
 
-export async function fetchUpcomingMovies(page = 1) {
-  try {
-    const response = await fetch(`${API_BASE_URL}/movie/upcoming?language=en-US&page=${page}`, options);
-    if (!response.ok) {
-      throw new Error('Failed to fetch now playing movies');
-    }
-    const data = await response.json();
-    return data.results;
-  } catch (error) {
-    throw error;
-  }
+export function fetchTopRatedMovies(page = 1) {
+  return fetchMoviesData('/movie/top_rated?language=en-US', page);
 }
 
-export async function fetchSearch(query, page = 1) {
+export function fetchUpcomingMovies(page = 1) {
+  return fetchMoviesData('/movie/upcoming?language=en-US', page);
+}
+
+export function fetchSearch(query, page = 1) {
+  return fetchMoviesData(`/search/movie?query=${query}&include_adult=false&language=en-US`, page);
+}
+
+export async function fetchDetails(query) {
   try {
-    const response = await fetch(`${API_BASE_URL}/search/movie?query=${query}&include_adult=false&language=en-US&page=${page}`, options)
+    const response = await fetch(`${API_BASE_URL}/movie/${query}?language=en-US`, options);
     if (!response.ok) {
-      throw new Error('Failed to fetch now playing movies');
+      throw new Error('Failed to fetch movie details');
     }
     const data = await response.json();
-    return data.results;
+    return data;
   } catch (error) {
     throw error;
   }

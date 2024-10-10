@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchNowPlayingMovies, fetchUpcomingMovies, fetchTopRatedMovies, fetchPopularMovies, fetchSearch } from "./apiService"
+import { fetchNowPlayingMovies, fetchUpcomingMovies, fetchTopRatedMovies, fetchPopularMovies, fetchSearch, fetchDetails } from "./apiService"
 import { Requests } from "./Requests";
 
 export const useFetch = (type, query) => {
@@ -29,6 +29,10 @@ export const useFetch = (type, query) => {
                     response = await fetchSearch(query);
                     break;
                 }
+                case Requests.DETAILS: {
+                    response = await fetchDetails(query);
+                    break;
+                }
                 default: {
                     response = [];
                 }
@@ -38,7 +42,7 @@ export const useFetch = (type, query) => {
         }
         fetchMovies();
 
-    }, [type]);
+    }, [type,query]);
 
     return { data }
 }

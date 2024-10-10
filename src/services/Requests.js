@@ -3,5 +3,6 @@ export const Requests = {
     POPULAR: 'POPULAR', 
     TOP_RATED: 'TOP_RATED',
     UPCOMING: 'UPCOMING',
-    SEARCH: 'SEARCH'
+    SEARCH: 'SEARCH',
+    DETAILS: 'DETAILS'
 }
