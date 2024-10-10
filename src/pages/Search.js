@@ -1,7 +1,6 @@
 import { Card } from "../components/index";
 import { useFetch } from "../services/useFetch";
 import { useSearchParams } from "react-router-dom";
-import { useEffect } from "react";
 import { useTitle } from "../hooks/useTitle";
 
 export const Search = ({ api }) => {
