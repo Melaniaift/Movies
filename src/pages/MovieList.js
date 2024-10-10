@@ -1,10 +1,8 @@
-import { useState } from "react";
 import { Card } from "../components/index";
 import { useFetch } from "../services/useFetch";
-import { Requests } from "../services/Requests";
 
-export const MovieList = () => {
-    const {data:movies} = useFetch(Requests.NOW_PLAYING)
+export const MovieList = ({api}) => {
+    const { data: movies } = useFetch(api)
 
     return (
         <main>

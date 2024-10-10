@@ -1,17 +1,43 @@
 import { useEffect, useState } from "react";
-import { fetchNowPlayingMovies } from "./apiService"
+import { fetchNowPlayingMovies, fetchUpcomingMovies, fetchTopRatedMovies, fetchPopularMovies, fetchSearch } from "./apiService"
 import { Requests } from "./Requests";
-export const useFetch = (type) => {
 
+export const useFetch = (type, query) => {
     const [data, setData] = useState([])
     useEffect(() => {
-        if (type === Requests.NOW_PLAYING) {
-            async function fetchMovies() {
-                const response = await fetchNowPlayingMovies();
-                setData(response);
+
+        async function fetchMovies() {
+            let response = [];
+            switch (type) {
+                case Requests.NOW_PLAYING: {
+                    response = await fetchNowPlayingMovies();
+                    break;
+                }
+                case Requests.POPULAR: {
+                    response = await fetchPopularMovies();
+                    break;
+                }
+                case Requests.TOP_RATED: {
+                    response = await fetchTopRatedMovies();
+                    break;
+                }
+                case Requests.UPCOMING: {
+                    response = await fetchUpcomingMovies();
+                    break;
+                }
+                case Requests.SEARCH: {
+                    response = await fetchSearch(query);
+                    break;
+                }
+                default: {
+                    response = [];
+                }
             }
-            fetchMovies();
+            setData(response)
+
         }
+        fetchMovies();
+
     }, [type]);
 
     return { data }
